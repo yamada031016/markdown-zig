@@ -21,6 +21,7 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = .ReleaseFast,
     });
+    markdown_zig_mod.addImport("abelha", abelha.module("abelha"));
 
     exe.root_module.addImport("markdown-zig", markdown_zig_mod);
 
