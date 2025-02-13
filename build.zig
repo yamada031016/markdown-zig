@@ -17,7 +17,7 @@ pub fn build(b: *std.Build) void {
     exe.root_module.addImport("abelha", abelha.module("abelha"));
 
     const markdown_zig_mod = b.addModule("markdown-zig", .{
-        .root_source_file = b.path("src/parser/parser.zig"),
+        .root_source_file = b.path("src/root.zig"),
         .target = target,
         .optimize = .ReleaseFast,
     });
