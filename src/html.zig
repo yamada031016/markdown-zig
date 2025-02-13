@@ -1,11 +1,11 @@
 const std = @import("std");
 const Token = @import("token.zig").Token;
 
-pub fn htmlConverter(writer: anytype) HtmlConverter(@TypeOf(writer)) {
+pub fn Converter(writer: anytype) HtmlConverter(@TypeOf(writer)) {
     return .{ .writer = writer };
 }
 
-fn HtmlConverter(comptime Writer: type) type {
+fn Converter(comptime Writer: type) type {
     return struct {
         buf: [1024 * 10]u8 = undefined,
         idx: usize = 0,

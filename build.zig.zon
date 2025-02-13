@@ -1,0 +1,17 @@
+.{
+    .name = "markdown-zig",
+
+    .version = "0.0.0",
+
+    .dependencies = .{
+        .abelha = .{
+            .url = "https://github.com/yamada031016/abelha/archive/refs/heads/master.tar.gz",
+            .hash = "122089143f72d2f9ad35e47bb56cc942c980c2babf230a5b2efadf627cb54bde9456",
+        },
+    },
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "src",
+    },
+}

@@ -1,7 +1,7 @@
 const std = @import("std");
 const md = @import("parser.zig");
 const Token = @import("token.zig").Token;
-const htmlConverter = @import("html.zig").htmlConverter;
+const html = @import("html.zig");
 
 pub fn main() !void {
     const text =
@@ -21,6 +21,6 @@ pub fn main() !void {
     // const html = try std.fs.cwd().createFile("md.html", .{});
     // const writer = html.writer();
 
-    var hc = htmlConverter(writer);
+    var hc = html.converter(writer);
     try hc.mdToHTML(result.result);
 }
