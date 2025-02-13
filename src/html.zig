@@ -1,7 +1,7 @@
 const std = @import("std");
 const Token = @import("token.zig").Token;
 
-pub fn Converter(writer: anytype) HtmlConverter(@TypeOf(writer)) {
+pub fn converter(writer: anytype) Converter(@TypeOf(writer)) {
     return .{ .writer = writer };
 }
 
