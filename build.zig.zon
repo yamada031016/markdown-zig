@@ -6,7 +6,7 @@
     .dependencies = .{
         .abelha = .{
             .url = "https://github.com/yamada031016/abelha/archive/refs/heads/master.tar.gz",
-            .hash = "122089143f72d2f9ad35e47bb56cc942c980c2babf230a5b2efadf627cb54bde9456",
+            .hash = "1220f0b766e534b1a2d7e812af844697d16dbc4b9a15a49df4d42661b1e4c101a79d",
         },
     },
     .paths = .{
