@@ -9,13 +9,14 @@ const MdResult = ParseResult(Token);
 const NodeResult = ParseResult(token.Node);
 
 pub fn parse_markdown(input: []const u8) !ParseResult([]const Token) {
-    return try ab.separated_list1(Token, ab.newline, ab.alt(Token, .{
-        heading,
-        list_item,
-        bold_text,
-        italic_text,
-        paragraph,
-    }))(input);
+    _ = input;
+    // return try ab.separated_list1(Token, ab.newline, ab.alt(Token, .{
+    //     heading,
+    //     list_item,
+    //     bold_text,
+    //     italic_text,
+    //     paragraph,
+    // }))(input);
 }
 
 pub fn heading(input: []const u8) !MdResult {
