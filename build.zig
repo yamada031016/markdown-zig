@@ -39,7 +39,7 @@ pub fn build(b: *std.Build) void {
     const exe_unit_tests = b.addTest(.{
         .root_source_file = b.path("src/main.zig"),
         .target = target,
-        .optimize = optimize,
+        .optimize = .ReleaseSmall,
     });
     exe_unit_tests.root_module.addImport("abelha", abelha.module("abelha"));
 

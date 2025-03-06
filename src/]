@@ -12,13 +12,13 @@ const delimited = ab.sequence.delimited;
 const many_till = ab.multi.many_till;
 const peek = ab.combinator.peek;
 
-pub const MdError = error{
+const MdError = error{
     InvalidHeadingLevel,
     UnknownFormat,
 };
 
 pub fn parse_markdown(input: []const u8) !ab.ParseResult([]const []const u8) {
-    return try separated_list1([]const u8, ab.character.newline, alt([]const u8, .{
+    return try separated_list1([]const u8, ab.character.whitespace, alt([]const u8, .{
         heading,
         list_item,
         paragraph,
@@ -35,7 +35,7 @@ pub fn heading(input: []const u8) !IResult {
     if (level > 6) {
         return MdError.InvalidHeadingLevel;
     }
-    const _result = try ab.sequence.preceded(ab.character.space1, take_until("\n"))(result.rest);
+    const _result = try ab.structure.preceded(ab.whitespace.space1, take_until("\n"))(result.rest);
 
     try writer.print("<h{}>{s}</h{}>", .{ level, _result.result, level });
 
@@ -52,19 +52,10 @@ pub fn list_item(input: []const u8) !IResult {
     var array = std.ArrayList(u8).init(std.heap.page_allocator);
     const writer = array.writer();
 
-    // const result = try separated_list1(
-    //     []const u8,
-    //     tag("\n"),
-    //     ab.sequence.preceded(
-    //         tag("- "),
-    //         take_until("\n"),
-    //     ),
-    // )(input);
-
-    const result = try many_till(
-        ab.sequence.preceded(
+    const result = try ab.combinator.many_till(
+        ab.structure.preceded(
             ab.combinator.opt(tag("\n")),
-            ab.sequence.preceded(tag("- "), take_until("\n")),
+            ab.structure.preceded(tag("- "), take_until("\n")),
         ),
         alt([]const u8, .{
             peek(ab.combinator.not(tag("\n- "))),
@@ -143,8 +134,8 @@ pub fn inlineElement(input: []const u8) !IResult {
             bold_text,
             italic_text,
             inline_code,
-            ab.character.newline,
-            ab.bytes.is_not("`[*"),
+            ab.whitespace.newline,
+            ab.basic.is_not("`[*"),
         },
     )(input);
 
@@ -155,8 +146,8 @@ pub fn paragraph(input: []const u8) !IResult {
     var array = std.ArrayList(u8).init(std.heap.page_allocator);
     const writer = array.writer();
 
-    const recognize_end = alt([]const u8, .{ ab.character.line_ending, ab.combinator.eof });
-    const result = try many_till(inlineElement, peek(recognize_end))(input);
+    const recognize_end = alt([]const u8, .{ ab.whitespace.line_ending, ab.combinator.eof });
+    const result = try ab.combinator.many_till(inlineElement, peek(recognize_end))(input);
 
     try writer.print("<p>{s}</p>", .{try std.mem.concat(std.heap.page_allocator, u8, result.result)});
 
